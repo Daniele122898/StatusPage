@@ -1,10 +1,14 @@
+using System;
+using System.IO;
 using System.Net;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using StatusPageAPI.Extensions;
 
 namespace StatusPageAPI
@@ -15,6 +19,21 @@ namespace StatusPageAPI
         // For later use
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo()
+                {
+                    Title = "Status Page",
+                    Version = "v1",
+                    Description = "Status Page for different services"
+                });
+
+                // Set the comments path for the Swagger Json and UI
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+            
             this.ConfigureServices(services);
         }
         
@@ -33,6 +52,13 @@ namespace StatusPageAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "StatusPage");
+                });
             }
             else
             {
