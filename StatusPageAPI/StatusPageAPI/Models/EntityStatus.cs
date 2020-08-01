@@ -12,6 +12,8 @@ namespace StatusPageAPI.Models
         [Required]
         public Status Status { get; set; }
         
+        public string Description { get; set; }
+        
         public string Error { get; set; }
 
         public List<EntityStatus> SubEntities { get; set; }
