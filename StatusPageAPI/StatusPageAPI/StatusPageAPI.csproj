@@ -14,11 +14,20 @@
 
     <ItemGroup>
       <PackageReference Include="ArgonautCore" Version="1.5.2" />
+      <PackageReference Include="ArgonautCore.Network" Version="1.1.0" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Controllers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="entities.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

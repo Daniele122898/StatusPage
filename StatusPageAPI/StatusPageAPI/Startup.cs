@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using StatusPageAPI.Extensions;
+using StatusPageAPI.Services;
 
 namespace StatusPageAPI
 {
@@ -77,6 +78,9 @@ namespace StatusPageAPI
                     });
                 });
             }
+            
+            // Warmup services
+            app.ApplicationServices.GetRequiredService<EntityCheckService>();
             
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
