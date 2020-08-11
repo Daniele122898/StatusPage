@@ -19,5 +19,12 @@ namespace StatusPageAPI.Models
         public List<EntityStatus> SubEntities { get; set; }
 
         public bool IsCategory => SubEntities?.Count > 0;
+
+        public EntityStatus SetOverrides(EntityDeclaration e)
+        {
+            this.Identifier = string.IsNullOrWhiteSpace(e.Identifier) ? this.Identifier : e.Identifier;
+            this.Description = string.IsNullOrWhiteSpace(e.Description) ? this.Description : e.Description;
+            return this;
+        }
     }
 }
