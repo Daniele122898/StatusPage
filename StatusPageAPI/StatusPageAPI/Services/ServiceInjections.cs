@@ -9,6 +9,7 @@ namespace StatusPageAPI.Services
             => services
                 .AddSingleton<EntityCheckService>()
                 .AddSingleton<CoreHttpClient>()
-                .AddSingleton<StatusService>();
+                .AddSingleton<StatusService>()
+                .AddSingleton<EntityConfigService>();
     }
 }
