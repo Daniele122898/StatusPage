@@ -81,7 +81,6 @@ namespace StatusPageAPI
             
             // Warmup services
             app.ApplicationServices.GetRequiredService<EntityCheckService>();
-            app.ApplicationServices.GetRequiredService<EntityConfigService>();
             
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
