@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using ArgonautCore.Network.Enums;
 using ArgonautCore.Network.Http;
 using Microsoft.Extensions.Logging;
 using StatusPageAPI.Models;
