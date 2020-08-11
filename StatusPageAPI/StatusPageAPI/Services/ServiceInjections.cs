@@ -8,6 +8,7 @@ namespace StatusPageAPI.Services
         public static IServiceCollection AddServices(this IServiceCollection services)
             => services
                 .AddSingleton<EntityCheckService>()
-                .AddSingleton<CoreHttpClient>();
+                .AddSingleton<CoreHttpClient>()
+                .AddSingleton<StatusService>();
     }
 }
