@@ -5,7 +5,7 @@ namespace StatusPageAPI.Services
 {
     public static class ServiceInjections
     {
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        public static IServiceCollection AddCustomServices(this IServiceCollection services)
             => services
                 .AddSingleton<EntityCheckService>()
                 .AddSingleton<CoreHttpClient>()

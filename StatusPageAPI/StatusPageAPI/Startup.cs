@@ -45,6 +45,7 @@ namespace StatusPageAPI
             services.AddControllers();
             services.AddRouting(op => op.LowercaseUrls = true);
             services.AddCors();
+            services.AddCustomServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
