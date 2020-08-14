@@ -16,6 +16,8 @@ namespace StatusPageAPI.Models
         
         public string Error { get; set; }
 
+        public uint RTT { get; set; }
+
         public List<EntityStatus> SubEntities { get; set; }
 
         public bool IsCategory => SubEntities?.Count > 0;

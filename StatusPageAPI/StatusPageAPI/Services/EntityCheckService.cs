@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace StatusPageAPI.Services
             _ss = ss;
 
             // After startup it should do it's first query after x seconds. This gives enough time for everything to warm up and start
-            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(15), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
+            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
             
             _log.LogInformation("Initialized Entity Check service");
         }
@@ -38,7 +39,7 @@ namespace StatusPageAPI.Services
         private async void GetStatuses(object state)
         {
             _log.LogInformation("Getting Statuses...");
-            var entities = _ecs.GetEntityDeclarations();
+            var entities = await _ecs.GetEntityDeclarationsAsync();
             var statuses = new List<EntityStatus>(entities.Count);
             foreach (var entity in entities)
             {
@@ -49,7 +50,11 @@ namespace StatusPageAPI.Services
                 }
                 else
                 {
+                    var sw = new Stopwatch();
+                    sw.Restart();
                     var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                    uint rtt = (uint) sw.ElapsedMilliseconds;
+                    sw.Stop();
                     if (!res)
                     {
                         statuses.Add(new EntityStatus()
@@ -63,6 +68,7 @@ namespace StatusPageAPI.Services
                     }
 
                     var s = (~res).SetOverrides(entity);
+                    s.RTT = rtt;
                     statuses.Add(s);
                 }
             }
@@ -78,9 +84,12 @@ namespace StatusPageAPI.Services
                 Description = e.Description,
                 SubEntities = new List<EntityStatus>()
             };
+            var sw = new Stopwatch();
             foreach (var entity in e.SubEntities)
             {
+                sw.Restart();
                 var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                uint rtt = (uint) sw.ElapsedMilliseconds;
                 if (!res)
                 {
                     ent.SubEntities.Add(new EntityStatus()
@@ -94,14 +103,18 @@ namespace StatusPageAPI.Services
                 }
 
                 var s = (~res).SetOverrides(entity);
+                s.RTT = rtt;
                 ent.SubEntities.Add(s);
             }
-
+            
             // TODO this hurts my ETH heart. Maybe wanna optimise this even tho its not rly needed since its a rly small list
             if (ent.SubEntities.Any(x => x.Status == Status.PartialOutage || x.Status == Status.Outage))
                 ent.Status = Status.PartialOutage;
             if (ent.SubEntities.All(x => x.Status == Status.Outage))
                 ent.Status = Status.Outage;
+
+            // Get the average RTT on the category
+            ent.RTT = (uint) ent.SubEntities.Where(x => x.Status != Status.Outage).Average(x => x.RTT);
 
             return ent;
         }
