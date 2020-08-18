@@ -10,7 +10,21 @@
 
 
   @media (min-width: $desktop-breakpoint) {
-    max-width: 110rem;
+    max-width: 60rem;
+  }
+}
+
+.content-container-big {
+  margin: 0 auto;
+  padding: 0 $m-size;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+
+  @media (min-width: $desktop-breakpoint) {
+    max-width: 100rem;
   }
 }
 

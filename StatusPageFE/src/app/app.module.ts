@@ -12,12 +12,15 @@ import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
 import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
+import { StatusContainerComponent } from './home/components/status-container/status-container.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    HomeComponent
+    HomeComponent,
+    StatusContainerComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import {appRoutes} from './routes';
     MatButtonModule,
     MatExpansionModule,
     MatDividerModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

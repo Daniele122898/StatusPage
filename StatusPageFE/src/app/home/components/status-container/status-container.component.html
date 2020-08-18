@@ -1,0 +1,30 @@
+<mat-accordion class="status-bar">
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false"
+                       *ngIf="serviceStatus">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{serviceStatus.identifier}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <span [style.color]="getStatusColor()">{{getStatusText()}}</span>
+        <span class="status-bar__icons" [style.color]="getStatusColor()"><span class="rtt-margin">{{serviceStatus.rtt}} ms</span> <mat-icon>{{getStatusIcon()}}</mat-icon></span>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>{{serviceStatus.description ? serviceStatus.description : 'No description provided'}}</p>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<!--On service error or not loaded-->
+<mat-expansion-panel
+  (opened)="panelOpenState = true"
+  (closed)="panelOpenState = false"
+  *ngIf="!serviceStatus"
+  [disabled]="true">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Something went wrong...
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+</mat-expansion-panel>
+

@@ -7,7 +7,6 @@ import {ColorSchemeService} from '../shared/Services/color-scheme.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public panelOpenState = false;
 
   constructor(private colorSchemeService: ColorSchemeService) {
     this.colorSchemeService.load();

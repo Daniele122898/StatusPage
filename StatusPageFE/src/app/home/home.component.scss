@@ -1,0 +1,17 @@
+@import "src/shared/scss/settings";
+
+.content-container {
+  > .status-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    margin-top: $l-size;
+
+    > * {
+      margin-bottom: $m-size;
+    }
+  }
+}
+
+
