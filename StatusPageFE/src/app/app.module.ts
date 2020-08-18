@@ -10,6 +10,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
+import {RouterModule} from '@angular/router';
+import {appRoutes} from './routes';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { HomeComponent } from './home/home.component';
     MatIconModule,
     MatButtonModule,
     MatExpansionModule,
-    MatDividerModule
+    MatDividerModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
