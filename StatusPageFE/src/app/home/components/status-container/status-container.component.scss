@@ -1,4 +1,5 @@
 @import "src/shared/scss/settings";
+@import "~@angular/material/theming";
 
 .status-bar .mat-expansion-panel-header-description {
   justify-content: space-between;
@@ -9,6 +10,7 @@
 
 .status-bar .mat-expansion-panel-header-title {
   width: 100%;
+  align-items: center;
 }
 
 .status-bar .status-bar__icons {
