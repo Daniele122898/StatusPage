@@ -1,5 +1,5 @@
 @import "src/shared/scss/settings";
-@import "~@angular/material/theming";
+@import "../../../../styles";
 
 .status-bar .mat-expansion-panel-header-description {
   justify-content: space-between;
@@ -25,4 +25,6 @@
 
 .sub-entity-container .mat-expansion-panel {
   margin-bottom: $xs-size;
+
+  filter: brightness(92%);
 }

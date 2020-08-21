@@ -18,7 +18,7 @@
     </mat-expansion-panel-header>
     <p>{{serviceStatus.description ? serviceStatus.description : (isCategory() ? '' : 'No description provided')}}</p>
     <div *ngIf="isCategory()" class="sub-entity-container">
-      <app-status-container *ngFor="let subEntity of serviceStatus.subEntities" [serviceStatus]="subEntity"></app-status-container>
+      <app-status-container *ngFor="let subEntity of serviceStatus.subEntities" [serviceStatus]="subEntity" class="bg-30"></app-status-container>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

@@ -23,7 +23,7 @@ $status-theme: mat-light-theme((
   color: (
     primary: $status-primary,
     accent: $status-accent,
-    warn: $status-warn,
+    warn: $status-warn
   )
 ));
 
@@ -47,7 +47,60 @@ $status-dark-theme: mat-dark-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 
+// Define a custom mixin that takes in the current theme
+@mixin theme-color-grabber-dark($theme) {
+  // Parse the theme and create variables for each color in the pallete
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  // Create theme specfic styles
+  .primary-color-bg {
+    background-color: mat-color($primary);
+  }
+  .accent-color-bg {
+    background-color: mat-color($accent);
+  }
+  .warn-color-bg {
+    background-color: mat-color($warn);
+  }
+
+  @for $i from 1 through 10 {
+    .bg-#{$i * 10} {
+      background-color: lighten(#121212, $i * 10);
+      //background-color: mat-color($background);
+    }
+  }
+}
+
+@mixin theme-color-grabber-light($theme) {
+  // Parse the theme and create variables for each color in the pallete
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+
+  // Create theme specfic styles
+  .primary-color-bg {
+    background-color: mat-color($primary);
+  }
+  .accent-color-bg {
+    background-color: mat-color($accent);
+  }
+  .warn-color-bg {
+    background-color: mat-color($warn);
+  }
+
+  @for $i from 1 through 10 {
+    .bg-#{$i * 10} {
+      background-color: darken(white, $i * 10);
+      //background-color: mat-color($background);
+    }
+  }
+}
+
+
 .color-scheme-dark {
+  @include theme-color-grabber-dark($status-dark-theme);
   @include angular-material-theme($status-dark-theme);
 
   background-color: #121212;
@@ -55,7 +108,9 @@ $status-dark-theme: mat-dark-theme((
 }
 
 .color-scheme-light {
+  @include theme-color-grabber-light($status-theme);
   @include angular-material-theme($status-theme);
+
 }
 
 /* You can add global styles to this file, and also import other style files */
