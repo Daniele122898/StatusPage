@@ -14,4 +14,28 @@
   }
 }
 
+.notice-box {
+
+  width: 100%;
+  padding: $m-size;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  > .notice-content {
+    display: flex;
+    flex-direction: column;
+
+    > .notice-header {
+      p {
+        font-size: $m-size;
+        margin: 0;
+      }
+    }
+
+    > .notice-description {
+
+    }
+  }
+}
+
 

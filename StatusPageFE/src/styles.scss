@@ -119,5 +119,6 @@ $status-dark-theme: mat-dark-theme((
 html, body {
   height: 100%;
   transition: background ease-in-out 150ms, color ease-in-out 150ms;
+  box-sizing: border-box;
 }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
