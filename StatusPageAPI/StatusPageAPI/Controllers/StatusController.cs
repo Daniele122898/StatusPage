@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StatusPageAPI.Dtos.StatusDtos;
 using StatusPageAPI.Models;
 using StatusPageAPI.Services;
 
@@ -13,17 +14,44 @@ namespace StatusPageAPI.Controllers
     {
         private readonly StatusService _ss;
         private readonly EntityConfigService _ecs;
+        private readonly SpecialNoticeService _sns;
 
-        public StatusController(StatusService ss, EntityConfigService ecs)
+        public StatusController(StatusService ss, EntityConfigService ecs, SpecialNoticeService sns)
         {
             _ss = ss;
             _ecs = ecs;
+            _sns = sns;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<EntityStatus>> GetStatuses()
         {
             return Ok(_ss.GetStatuses());
+        }
+
+        [HttpGet("notice")]
+        public ActionResult<SpecialNotice> GetSpecialNotice()
+        {
+            if (_sns.SpecialNotice == null)
+                return NotFound();
+
+            return _sns.SpecialNotice;
+        }
+        
+        [HttpPost("notice")]
+        [Authorize]
+        public IActionResult SetSpecialNotice(SetSpecialNoticeDto specialNoticeDto)
+        {
+            _sns.SpecialNotice = new SpecialNotice(specialNoticeDto.Status, specialNoticeDto.Notice);
+            return Ok();
+        }
+        
+        [HttpPost("notice/remove")]
+        [Authorize]
+        public IActionResult RemoveSpecialNotice()
+        {
+            _sns.SpecialNotice = null;
+            return Ok();
         }
 
         [HttpGet("config")]
