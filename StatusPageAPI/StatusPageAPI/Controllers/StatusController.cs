@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StatusPageAPI.Models;
 using StatusPageAPI.Services;
@@ -26,6 +27,7 @@ namespace StatusPageAPI.Controllers
         }
 
         [HttpGet("config")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<EntityDeclaration>>> GetConfig()
         {
             var c = await _ecs.GetEntityDeclarationsAsync();
