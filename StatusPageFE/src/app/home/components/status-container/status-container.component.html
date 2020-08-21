@@ -6,12 +6,20 @@
       <mat-panel-title>
         {{serviceStatus.identifier}}
       </mat-panel-title>
-      <mat-panel-description>
+      <mat-panel-description *ngIf="!isCategory()">
+        <span [style.color]="getStatusColor()">{{getStatusText()}}</span>
+        <span class="status-bar__icons" [style.color]="getStatusColor()"><span class="rtt-margin">{{serviceStatus.rtt}} ms</span> <mat-icon>{{getStatusIcon()}}</mat-icon></span>
+      </mat-panel-description>
+
+      <mat-panel-description *ngIf="isCategory()">
         <span [style.color]="getStatusColor()">{{getStatusText()}}</span>
         <span class="status-bar__icons" [style.color]="getStatusColor()"><span class="rtt-margin">{{serviceStatus.rtt}} ms</span> <mat-icon>{{getStatusIcon()}}</mat-icon></span>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>{{serviceStatus.description ? serviceStatus.description : 'No description provided'}}</p>
+    <p>{{serviceStatus.description ? serviceStatus.description : (isCategory() ? '' : 'No description provided')}}</p>
+    <div *ngIf="isCategory()" class="sub-entity-container">
+      <app-status-container *ngFor="let subEntity of serviceStatus.subEntities" [serviceStatus]="subEntity"></app-status-container>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>
 

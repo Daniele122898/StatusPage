@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ServiceStatus} from '../../../../shared/models/ServiceStatus';
+import {ServiceStatus, isServiceCategory} from '../../../../shared/models/ServiceStatus';
 import {Status} from '../../../../shared/models/Status';
 
 @Component({
@@ -17,6 +17,10 @@ export class StatusContainerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public isCategory(): boolean {
+    return isServiceCategory(this.serviceStatus);
   }
 
   public getStatusColor(): string {
@@ -51,4 +55,5 @@ export class StatusContainerComponent implements OnInit {
         return 'Partial Outage';
     }
   }
+
 }
