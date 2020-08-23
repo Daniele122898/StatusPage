@@ -16,6 +16,11 @@ import { StatusContainerComponent } from './home/components/status-container/sta
 import {HttpClientModule} from '@angular/common/http';
 import { AdminDashboardComponent } from './admin-dashboard/pages/admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './admin-dashboard/pages/login/login.component';
+import {JwtModule} from '@auth0/angular-jwt';
+
+export function tokenGetter(): string {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -35,7 +40,15 @@ import { LoginComponent } from './admin-dashboard/pages/login/login.component';
     MatExpansionModule,
     MatDividerModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        // TODO make this better
+        allowedDomains: ['localhost:5000/api'],
+        disallowedRoutes: ['localhost:5000/api/auth']
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
