@@ -46,7 +46,7 @@ namespace StatusPageAPI.Controllers
             return Ok();
         }
         
-        [HttpPost("notice/remove")]
+        [HttpDelete("notice")]
         [Authorize]
         public IActionResult RemoveSpecialNotice()
         {

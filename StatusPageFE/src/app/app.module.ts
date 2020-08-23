@@ -21,6 +21,7 @@ import {MatCardModule} from '@angular/material/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import { NoticeFormComponent } from './admin-dashboard/components/notice-form/notice-form.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -33,7 +34,8 @@ export function tokenGetter(): string {
     HomeComponent,
     StatusContainerComponent,
     AdminDashboardComponent,
-    LoginComponent
+    LoginComponent,
+    NoticeFormComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,7 @@ export function tokenGetter(): string {
       config: {
         tokenGetter,
         // TODO make this better
-        allowedDomains: ['localhost:5000/api'],
+        allowedDomains: ['localhost:5000'],
         disallowedRoutes: ['localhost:5000/api/auth']
       }
     }),

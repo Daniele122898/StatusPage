@@ -3,7 +3,7 @@
     <mat-card-header>
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
-    <mat-card-content style="margin-bottom: 0">
+    <mat-card-content style="margin: 0 16px;">
       <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
 
         <mat-form-field appearance="fill">
@@ -22,7 +22,7 @@
         </mat-form-field>
       </form>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions align="end">
       <button mat-button (click)="login()">LOGIN</button>
     </mat-card-actions>
   </mat-card>
