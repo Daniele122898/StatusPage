@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="content-container">
+  <mat-card class="card">
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="margin-bottom: 0">
+      <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username">
+          <mat-error *ngIf="hasError('username')">Please enter a username</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Enter your password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+          <mat-error *ngIf="hasError('password')">Please enter a password</mat-error>
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="login()">LOGIN</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

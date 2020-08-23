@@ -17,6 +17,10 @@ import {HttpClientModule} from '@angular/common/http';
 import { AdminDashboardComponent } from './admin-dashboard/pages/admin-dashboard/admin-dashboard.component';
 import { LoginComponent } from './admin-dashboard/pages/login/login.component';
 import {JwtModule} from '@auth0/angular-jwt';
+import {MatCardModule} from '@angular/material/card';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -48,7 +52,11 @@ export function tokenGetter(): string {
         allowedDomains: ['localhost:5000/api'],
         disallowedRoutes: ['localhost:5000/api/auth']
       }
-    })
+    }),
+    MatCardModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

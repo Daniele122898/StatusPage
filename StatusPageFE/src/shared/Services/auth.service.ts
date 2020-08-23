@@ -4,7 +4,7 @@ import {environment} from '../../environments/environment';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {LoginResponse} from '../models/LoginResponse';
+import {LoginResponse} from '../models/Login';
 
 @Injectable({
   providedIn: 'root'

@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   public getStatusText = getStatusText;
 
   @HostListener('document:keydown', ['$event']) onKeyDown(e: KeyboardEvent): void {
-    if (e.ctrlKey && e.code === 'KeyL') {
+    if (e.shiftKey && e.code === 'KeyL') {
       this.router.navigate(['/login']);
     }
   }
