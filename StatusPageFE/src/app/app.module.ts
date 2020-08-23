@@ -14,13 +14,17 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
 import { StatusContainerComponent } from './home/components/status-container/status-container.component';
 import {HttpClientModule} from '@angular/common/http';
+import { AdminDashboardComponent } from './admin-dashboard/pages/admin-dashboard/admin-dashboard.component';
+import { LoginComponent } from './admin-dashboard/pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    StatusContainerComponent
+    StatusContainerComponent,
+    AdminDashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
