@@ -22,6 +22,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { NoticeFormComponent } from './admin-dashboard/components/notice-form/notice-form.component';
+import { StatusConfigFormComponent } from './admin-dashboard/components/status-config-form/status-config-form.component';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -35,7 +36,8 @@ export function tokenGetter(): string {
     StatusContainerComponent,
     AdminDashboardComponent,
     LoginComponent,
-    NoticeFormComponent
+    NoticeFormComponent,
+    StatusConfigFormComponent
   ],
   imports: [
     BrowserModule,

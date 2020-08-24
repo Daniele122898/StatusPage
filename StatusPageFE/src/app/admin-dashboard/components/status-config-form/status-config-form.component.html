@@ -1,0 +1,32 @@
+<div class="content-container" style="width: 100%">
+  <mat-card class="card" style="width: 100%">
+    <mat-card-header>
+      <mat-card-title>Notice</mat-card-title>
+    </mat-card-header>
+    <mat-card-content style="margin: 0 16px;">
+      <form [formGroup]="statusConfigForm" (ngSubmit)="submit()" class="form">
+
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Notice</mat-label>
+          <textarea  matInput formControlName="notice"></textarea>
+          <mat-error *ngIf="hasError('notice')">Please enter a notice. If you wish to remove it just hit the remove button.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="width-100">
+          <mat-label>Status</mat-label>
+          <select matNativeControl formControlName="status">
+            <option value="0">Healthy</option>
+            <option value="1">Outage</option>
+            <option value="2">Partial Outage</option>
+          </select>
+          <mat-error *ngIf="hasError('notice')">Please select a status</mat-error>
+        </mat-form-field>
+
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button (click)="submit()">UPDATE</button>
+<!--      <button mat-button color="warn" (click)="remove()">REMOVE</button>-->
+    </mat-card-actions>
+  </mat-card>
+</div>
