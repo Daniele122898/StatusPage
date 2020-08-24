@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StatusConfig} from '../../models/StatusConfig';
+import {StatusConfigService} from '../../services/status-config.service';
 
 @Component({
   selector: 'app-status-config-form',
@@ -14,6 +15,7 @@ export class StatusConfigFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private configService: StatusConfigService,
   ) { }
 
   public hasError(formControl: string): boolean {
@@ -30,7 +32,16 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public remove(): void {
-
+    if (!this.statusConfig) {
+      return;
+    }
+    this.configService.removeConfig(this.statusConfig.identifier).subscribe(
+      () => {
+        // TODO force list refresh
+      }, err => {
+        console.error(err);
+      }
+    );
   }
 
   private createForm(): void {

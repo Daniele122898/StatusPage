@@ -19,4 +19,8 @@ export class StatusConfigService {
     return this.http.get<StatusConfig[]>(this.baseUrl);
   }
 
+  public removeConfig(identifier: string): Observable<any> {
+    return this.http.delete(this.baseUrl + '/' + identifier);
+  }
+
 }
