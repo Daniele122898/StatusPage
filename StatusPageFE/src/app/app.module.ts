@@ -23,6 +23,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { NoticeFormComponent } from './admin-dashboard/components/notice-form/notice-form.component';
 import { StatusConfigFormComponent } from './admin-dashboard/components/status-config-form/status-config-form.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -60,7 +61,8 @@ export function tokenGetter(): string {
     MatCardModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
