@@ -28,7 +28,39 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public submit(): void {
+    if (!this.statusConfigForm) {
+      return;
+    }
 
+    if (this.statusConfig) {
+      this.editConfig();
+    } else {
+      this.createConfig();
+    }
+  }
+
+  private createConfig(): void {
+    const conf: StatusConfig = this.statusConfigForm.value;
+    this.configService.createStatusConfig(conf).subscribe(
+      () => {
+        // TODO force list refresh
+      }, err => {
+        console.error(err);
+        alert(err.error);
+      }
+    );
+  }
+
+  private editConfig(): void {
+    const conf: StatusConfig = this.statusConfigForm.value;
+    this.configService.editStatusConfig(this.statusConfig.identifier, conf).subscribe(
+      () => {
+        // TODO force list refresh
+      }, err => {
+        console.error(err);
+        alert(err.error);
+      }
+    );
   }
 
   public remove(): void {
@@ -40,6 +72,7 @@ export class StatusConfigFormComponent implements OnInit {
         // TODO force list refresh
       }, err => {
         console.error(err);
+        alert(err.error);
       }
     );
   }

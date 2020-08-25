@@ -15,6 +15,14 @@ export class StatusConfigService {
     private http: HttpClient
   ) { }
 
+  public createStatusConfig(config: StatusConfig): Observable<any> {
+    return this.http.post<any>(this.baseUrl, config);
+  }
+
+  public editStatusConfig(oldId: string, newConfig: StatusConfig): Observable<any> {
+    return this.http.post<any>(this.baseUrl + `/${oldId}`, newConfig);
+  }
+
   public getStatusConfigs(): Observable<StatusConfig[]> {
     return this.http.get<StatusConfig[]>(this.baseUrl);
   }
