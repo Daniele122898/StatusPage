@@ -24,6 +24,7 @@ import {MatInputModule} from '@angular/material/input';
 import { NoticeFormComponent } from './admin-dashboard/components/notice-form/notice-form.component';
 import { StatusConfigFormComponent } from './admin-dashboard/components/status-config-form/status-config-form.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
 
 export function tokenGetter(): string {
   return localStorage.getItem('token');
@@ -40,30 +41,31 @@ export function tokenGetter(): string {
     NoticeFormComponent,
     StatusConfigFormComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatDividerModule,
-    RouterModule.forRoot(appRoutes),
-    HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter,
-        // TODO make this better
-        allowedDomains: ['localhost:5000'],
-        disallowedRoutes: ['localhost:5000/api/auth']
-      }
-    }),
-    MatCardModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSlideToggleModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatDividerModule,
+        RouterModule.forRoot(appRoutes),
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter,
+                // TODO make this better
+                allowedDomains: ['localhost:5000'],
+                disallowedRoutes: ['localhost:5000/api/auth']
+            }
+        }),
+        MatCardModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatTabsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

@@ -5,7 +5,11 @@
       <mat-card-title *ngIf="!statusConfig">Add new Config</mat-card-title>
     </mat-card-header>
     <mat-card-content style="margin: 0 16px;">
-      <form [formGroup]="statusConfigForm" (ngSubmit)="submit()" class="form">
+      <form
+        [formGroup]="statusConfigForm"
+        (ngSubmit)="submit()"
+        class="form"
+        *ngIf="!statusConfigForm.get('isCategory').value">
 
         <mat-form-field appearance="fill" class="width-100">
           <mat-label>Identifier</mat-label>
@@ -32,6 +36,76 @@
         <mat-slide-toggle formControlName="isCategory">Is Category</mat-slide-toggle>
 
       </form>
+
+      <!--In case of multiple sub entities we tab-->
+      <mat-tab-group *ngIf="statusConfigForm.get('isCategory').value" dynamicHeight color="accent">
+        <mat-tab style="margin: 0 16px;" label="Category">
+          <form
+            [formGroup]="statusConfigForm"
+            (ngSubmit)="submit()"
+            class="form">
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Identifier</mat-label>
+              <input matInput formControlName="identifier">
+              <mat-error *ngIf="hasError('identifier')">Please enter a value</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+
+            <mat-form-field
+              *ngIf="!statusConfigForm.get('isCategory').value"
+              appearance="fill"
+              class="width-100">
+              <mat-label>Health Endpoint</mat-label>
+              <input matInput formControlName="healthEndpoint">
+              <mat-error *ngIf="hasError('healthEndpoint')">Please enter a value</mat-error>
+            </mat-form-field>
+
+            <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
+
+            <mat-slide-toggle formControlName="isCategory">Is Category</mat-slide-toggle>
+
+          </form>
+        </mat-tab>
+        <mat-tab
+          style="margin: 0 16px;"
+          *ngFor="let entity of statusConfig.subEntities; index as i;"
+          label="Entity {{i}}">
+          <form
+            [formGroup]="subEntityForms[i]"
+            (ngSubmit)="submit()"
+            class="form">
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Identifier</mat-label>
+              <input matInput formControlName="identifier">
+              <mat-error *ngIf="subHasError(i, 'identifier')">Please enter a value</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="width-100">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="fill"
+              class="width-100">
+              <mat-label>Health Endpoint</mat-label>
+              <input matInput formControlName="healthEndpoint">
+              <mat-error *ngIf="subHasError(i, 'healthEndpoint')">Please enter a value</mat-error>
+            </mat-form-field>
+
+            <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
+
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+
+
     </mat-card-content>
     <mat-card-actions align="end">
       <button [disabled]="formNotUpdatedOrValid()" *ngIf="statusConfig" mat-button (click)="submit()">EDIT</button>

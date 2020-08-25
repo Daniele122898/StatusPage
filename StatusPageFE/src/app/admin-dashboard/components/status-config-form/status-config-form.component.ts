@@ -11,6 +11,7 @@ import {StatusConfigService} from '../../services/status-config.service';
 export class StatusConfigFormComponent implements OnInit {
 
   public statusConfigForm: FormGroup;
+  public subEntityForms: FormGroup[];
   @Input() statusConfig: StatusConfig;
 
   constructor(
@@ -22,8 +23,15 @@ export class StatusConfigFormComponent implements OnInit {
     return this.statusConfigForm.get(formControl).hasError('required') && this.statusConfigForm.get(formControl).touched;
   }
 
+  public subHasError(index: number, formControl: string): boolean {
+    return this.subEntityForms[index].get(formControl).hasError('required') && this.subEntityForms[index].get(formControl).touched;
+  }
+
   ngOnInit(): void {
     this.createForm();
+    if (this.statusConfig && this.statusConfig.isCategory && this.statusConfig.subEntities.length > 0) {
+      this.createSubForms();
+    }
     this.populateForm();
   }
 
@@ -85,10 +93,21 @@ export class StatusConfigFormComponent implements OnInit {
     this.statusConfigForm = this.fb.group({
       identifier: ['', Validators.required],
       description: [''],
-      // subEntities: [''], // TODO figure out how to do subentities
       healthEndpoint: [''],
       enabled: [true, Validators.required],
       isCategory: [false, Validators.required],
+    });
+  }
+
+  private createSubForms(): void {
+    this.subEntityForms = [];
+    this.statusConfig.subEntities.forEach((ent) => {
+      this.subEntityForms.push(this.fb.group({
+        identifier: [ent.identifier, Validators.required],
+        description: [(ent.description ? ent.description : '')],
+        healthEndpoint: [ent.healthEndpoint, Validators.required],
+        enabled: [ent.enabled, Validators.required]
+      }));
     });
   }
 
@@ -102,4 +121,6 @@ export class StatusConfigFormComponent implements OnInit {
     this.statusConfigForm.get('enabled').setValue(this.statusConfig.enabled);
     this.statusConfigForm.get('isCategory').setValue(this.statusConfig.isCategory);
   }
+
+
 }
