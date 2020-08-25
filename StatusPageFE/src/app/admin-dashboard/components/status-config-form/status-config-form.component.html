@@ -73,7 +73,7 @@
         </mat-tab>
         <mat-tab
           style="margin: 0 16px;"
-          *ngFor="let entity of statusConfig.subEntities; index as i;"
+          *ngFor="let entity of subEntities; index as i;"
           label="Entity {{i}}">
           <form
             [formGroup]="subEntityForms[i]"
@@ -102,6 +102,11 @@
             <mat-slide-toggle formControlName="enabled">Enabled</mat-slide-toggle>
 
           </form>
+          <button style="margin-top: 10px" mat-raised-button color="accent" (click)="removeSubEntity(i)">Remove Sub-entity</button>
+        </mat-tab>
+        <mat-tab
+          label="Add new">
+          <button mat-raised-button color="accent" (click)="addSubEntity()">Add new Entity</button>
         </mat-tab>
       </mat-tab-group>
 

@@ -13,6 +13,7 @@ export class StatusConfigFormComponent implements OnInit {
   public statusConfigForm: FormGroup;
   public subEntityForms: FormGroup[];
   @Input() statusConfig: StatusConfig;
+  public subEntities: StatusConfig[];
 
   constructor(
     private fb: FormBuilder,
@@ -30,6 +31,7 @@ export class StatusConfigFormComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     if (this.statusConfig && this.statusConfig.isCategory && this.statusConfig.subEntities.length > 0) {
+      this.subEntities = this.statusConfig.subEntities;
       this.createSubForms();
     }
     this.populateForm();
@@ -75,6 +77,23 @@ export class StatusConfigFormComponent implements OnInit {
     );
   }
 
+  public addSubEntity(): void {
+    this.subEntities.push({
+      enabled: true,
+      healthEndpoint: '',
+      identifier: '',
+      isCategory: false,
+      description: ''
+    });
+
+    this.subEntityForms.push(this.fb.group({
+      identifier: ['', Validators.required],
+      description: [''],
+      healthEndpoint: ['', Validators.required],
+      enabled: [true, Validators.required]
+    }));
+  }
+
   public remove(): void {
     if (!this.statusConfig) {
       return;
@@ -87,6 +106,10 @@ export class StatusConfigFormComponent implements OnInit {
         alert(err.error);
       }
     );
+  }
+
+  public removeSubEntity(index: number): void {
+
   }
 
   private createForm(): void {
@@ -121,6 +144,5 @@ export class StatusConfigFormComponent implements OnInit {
     this.statusConfigForm.get('enabled').setValue(this.statusConfig.enabled);
     this.statusConfigForm.get('isCategory').setValue(this.statusConfig.isCategory);
   }
-
 
 }
