@@ -1,7 +1,8 @@
 <div class="content-container" style="width: 100%">
   <mat-card class="card" style="width: 100%">
     <mat-card-header>
-      <mat-card-title>{{statusConfig.identifier}}</mat-card-title>
+      <mat-card-title *ngIf="statusConfig">{{statusConfig.identifier}}</mat-card-title>
+      <mat-card-title *ngIf="!statusConfig">Add new Config</mat-card-title>
     </mat-card-header>
     <mat-card-content style="margin: 0 16px;">
       <form [formGroup]="statusConfigForm" (ngSubmit)="submit()" class="form">
@@ -30,8 +31,10 @@
       </form>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-button (click)="submit()">EDIT</button>
-      <button mat-button color="warn" (click)="remove()">REMOVE</button>
+      <button *ngIf="statusConfig" mat-button (click)="submit()">EDIT</button>
+      <button *ngIf="!statusConfig" mat-button (click)="submit()">ADD</button>
+
+      <button *ngIf="statusConfig" mat-button color="warn" (click)="remove()">REMOVE</button>
     </mat-card-actions>
   </mat-card>
 </div>
