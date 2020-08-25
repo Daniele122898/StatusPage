@@ -86,7 +86,7 @@ export class StatusConfigFormComponent implements OnInit {
       identifier: ['', Validators.required],
       description: [''],
       // subEntities: [''], // TODO figure out how to do subentities
-      healthEndpoint: ['', Validators.required],
+      healthEndpoint: [''],
       enabled: [true, Validators.required],
       isCategory: [false, Validators.required],
     });
