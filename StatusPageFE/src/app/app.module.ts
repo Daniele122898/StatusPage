@@ -14,25 +14,58 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './routes';
 import { StatusContainerComponent } from './home/components/status-container/status-container.component';
 import {HttpClientModule} from '@angular/common/http';
+import { AdminDashboardComponent } from './admin-dashboard/pages/admin-dashboard/admin-dashboard.component';
+import { LoginComponent } from './admin-dashboard/pages/login/login.component';
+import {JwtModule} from '@auth0/angular-jwt';
+import {MatCardModule} from '@angular/material/card';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { NoticeFormComponent } from './admin-dashboard/components/notice-form/notice-form.component';
+import { StatusConfigFormComponent } from './admin-dashboard/components/status-config-form/status-config-form.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTabsModule} from '@angular/material/tabs';
+
+export function tokenGetter(): string {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    StatusContainerComponent
+    StatusContainerComponent,
+    AdminDashboardComponent,
+    LoginComponent,
+    NoticeFormComponent,
+    StatusConfigFormComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatDividerModule,
-    RouterModule.forRoot(appRoutes),
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatButtonModule,
+        MatExpansionModule,
+        MatDividerModule,
+        RouterModule.forRoot(appRoutes),
+        HttpClientModule,
+        JwtModule.forRoot({
+            config: {
+                tokenGetter,
+                // TODO make this better
+                allowedDomains: ['localhost:5000'],
+                disallowedRoutes: ['localhost:5000/api/auth']
+            }
+        }),
+        MatCardModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatTabsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

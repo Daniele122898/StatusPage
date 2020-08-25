@@ -1,0 +1,9 @@
+<div class="content-container flex-direction-col align-items-center dashboard">
+  <app-notice-form class="content-card"></app-notice-form>
+  <app-status-config-form class="content-card"></app-status-config-form>
+  <app-status-config-form
+    class="content-card"
+    *ngFor="let config of statusConfigs"
+    [statusConfig]="config">
+  </app-status-config-form>
+</div>

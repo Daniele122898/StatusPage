@@ -1,0 +1,10 @@
+@import "src/shared/scss/settings";
+
+.dashboard {
+  margin-top: $m-size;
+
+  > .content-card {
+    width: 100%;
+    margin-bottom: $m-size;
+  }
+}

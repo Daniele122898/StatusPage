@@ -1,5 +1,17 @@
 <div class="content-container">
   <div class="status-list">
+    <div *ngIf="specialNotice" class="notice-box warn-color-bg">
+      <div class="notice-content">
+        <div class="notice-header">
+          <p>{{getStatusText(specialNotice.status)}}</p>
+        </div>
+
+        <div class="notice-description">
+          <p>{{specialNotice.notice}}</p>
+        </div>
+      </div>
+    </div>
+
     <app-status-container *ngFor="let status of serviceStatuses" [serviceStatus]="status"></app-status-container>
   </div>
 </div>

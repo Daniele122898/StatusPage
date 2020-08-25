@@ -18,7 +18,7 @@ namespace StatusPageAPI.Services
         private readonly EntityConfigService _ecs;
         private readonly StatusService _ss;
 
-        private const int _REFRESH_CD_MIN = 5;
+        private const int _REFRESH_CD_MIN = 1;
 
         // ReSharper disable once NotAccessedField.Local
         private readonly Timer _timer;
@@ -32,48 +32,60 @@ namespace StatusPageAPI.Services
 
             // After startup it should do it's first query after x seconds. This gives enough time for everything to warm up and start
             _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
-            
+
             _log.LogInformation("Initialized Entity Check service");
         }
 
         private async void GetStatuses(object state)
         {
-            _log.LogInformation("Getting Statuses...");
-            var entities = await _ecs.GetEntityDeclarationsAsync();
-            var statuses = new List<EntityStatus>(entities.Count);
-            foreach (var entity in entities)
+            try
             {
-                if (entity.IsCategory)
+                _log.LogInformation("Getting Statuses...");
+                var entities = await _ecs.GetEntityDeclarationsAsync();
+                var statuses = new List<EntityStatus>(entities.Count);
+                foreach (var entity in entities)
                 {
-                    var s = await this.GetEntityWithSubEntities(entity);
-                    statuses.Add(s);
-                }
-                else
-                {
-                    var sw = new Stopwatch();
-                    sw.Restart();
-                    var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
-                    uint rtt = (uint) sw.ElapsedMilliseconds;
-                    sw.Stop();
-                    if (!res)
+                    if (entity.IsCategory)
                     {
-                        statuses.Add(new EntityStatus()
-                        {
-                            Identifier = entity.Identifier,
-                            Description = entity.Description,
-                            Error = res.Err().Message,
-                            Status = Status.Outage
-                        });
-                        continue;
+                        if (entity.SubEntities == null || entity.SubEntities.Count == 0)
+                            continue;
+                        
+                        var s = await this.GetEntityWithSubEntities(entity);
+                        statuses.Add(s);
                     }
+                    else
+                    {
+                        var sw = new Stopwatch();
+                        sw.Restart();
+                        var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                        uint rtt = (uint) sw.ElapsedMilliseconds;
+                        sw.Stop();
+                        if (!res)
+                        {
+                            statuses.Add(new EntityStatus()
+                            {
+                                Identifier = entity.Identifier,
+                                Description = entity.Description,
+                                Error = res.Err().Message,
+                                Status = Status.Outage
+                            });
+                            continue;
+                        }
 
-                    var s = (~res).SetOverrides(entity);
-                    s.RTT = rtt;
-                    statuses.Add(s);
+                        var s = (~res).SetOverrides(entity);
+                        s.RTT = rtt;
+                        statuses.Add(s);
+                    }
                 }
+                _ss.SetStatuses(statuses);
+                _log.LogInformation("Finished updating all the status information.");
             }
-            _ss.SetStatuses(statuses);
-            _log.LogInformation("Finished updating all the status information.");
+            catch (Exception e)
+            {
+                // TODO check where it outputs.
+                Console.Error.WriteLine(e); 
+                Console.WriteLine(e);
+            }
         }
 
         private async Task<EntityStatus> GetEntityWithSubEntities(EntityDeclaration e)

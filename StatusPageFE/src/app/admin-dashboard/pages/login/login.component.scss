@@ -1,0 +1,17 @@
+@import "src/shared/scss/settings";
+
+.card {
+  width: fit-content;
+  height: fit-content;
+  margin: $m-size auto 0 auto;
+  //padding: $m-size;
+
+  @media (min-width: $desktop-breakpoint) {
+    margin: $xl-size auto 0 auto;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
