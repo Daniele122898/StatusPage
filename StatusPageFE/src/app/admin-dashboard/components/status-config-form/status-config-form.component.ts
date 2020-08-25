@@ -65,9 +65,21 @@ export class StatusConfigFormComponent implements OnInit {
 
   private createConfig(): void {
     const conf: StatusConfig = this.statusConfigForm.value;
+
+    if (this.statusConfigForm.get('isCategory').value) {
+      conf.subEntities = [];
+      this.subEntityForms.forEach((form) => {
+        const c: StatusConfig = form.value;
+        conf.subEntities.push(c);
+      });
+    }
+
     this.configService.createStatusConfig(conf).subscribe(
       () => {
         this.configService.forceListRefresh();
+        this.subEntities = undefined;
+        this.subEntityForms = undefined;
+        this.statusConfigForm.reset({enabled: true});
       }, err => {
         console.error(err);
         alert(err.error);
@@ -95,6 +107,13 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public addSubEntity(): void {
+    if (!this.subEntityForms) {
+      this.subEntityForms = [];
+    }
+    if (!this.subEntities) {
+      this.subEntities = [];
+    }
+
     this.subEntityForms.push(this.fb.group({
       identifier: ['', Validators.required],
       description: [''],
