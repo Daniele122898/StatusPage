@@ -42,6 +42,10 @@ export class StatusConfigFormComponent implements OnInit {
       return;
     }
 
+    if (this.statusConfigForm.get('isCategory') && this.subEntityForms.every(x => x.valid)) {
+      return;
+    }
+
     if (this.statusConfig) {
       this.editConfig();
     } else {
@@ -50,7 +54,13 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public formNotUpdatedOrValid(): boolean {
-    return (!this.statusConfigForm.valid && this.statusConfigForm.touched) || !this.statusConfigForm.touched;
+    if (!this.statusConfigForm.get('isCategory').value) {
+      return (!this.statusConfigForm.valid && this.statusConfigForm.touched) ||
+        !this.statusConfigForm.touched;
+    }
+
+    return (!this.statusConfigForm.valid) || (!(this.subEntityForms.every(x => x.valid)) ||
+      (!this.statusConfigForm.touched && this.subEntityForms.every(x => !x.touched)));
   }
 
   private createConfig(): void {
