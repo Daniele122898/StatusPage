@@ -18,7 +18,7 @@ namespace StatusPageAPI.Services
         private readonly EntityConfigService _ecs;
         private readonly StatusService _ss;
 
-        private const int _REFRESH_CD_MIN = 5;
+        private const int _REFRESH_CD_MIN = 1;
 
         // ReSharper disable once NotAccessedField.Local
         private readonly Timer _timer;
@@ -32,7 +32,7 @@ namespace StatusPageAPI.Services
 
             // After startup it should do it's first query after x seconds. This gives enough time for everything to warm up and start
             _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
-            
+
             _log.LogInformation("Initialized Entity Check service");
         }
 
