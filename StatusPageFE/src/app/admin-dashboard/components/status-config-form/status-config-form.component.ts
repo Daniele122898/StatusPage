@@ -42,7 +42,7 @@ export class StatusConfigFormComponent implements OnInit {
       return;
     }
 
-    if (this.statusConfigForm.get('isCategory') && this.subEntityForms.every(x => x.valid)) {
+    if (this.statusConfigForm.get('isCategory').value && !this.subEntityForms.every(x => x.valid)) {
       return;
     }
 
@@ -77,6 +77,13 @@ export class StatusConfigFormComponent implements OnInit {
 
   private editConfig(): void {
     const conf: StatusConfig = this.statusConfigForm.value;
+    if (this.statusConfigForm.get('isCategory').value) {
+      conf.subEntities = [];
+      this.subEntityForms.forEach((form) => {
+        const c: StatusConfig = form.value;
+        conf.subEntities.push(c);
+      });
+    }
     this.configService.editStatusConfig(this.statusConfig.identifier, conf).subscribe(
       () => {
         this.configService.forceListRefresh();
@@ -88,6 +95,13 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public addSubEntity(): void {
+    this.subEntityForms.push(this.fb.group({
+      identifier: ['', Validators.required],
+      description: [''],
+      healthEndpoint: ['', Validators.required],
+      enabled: [true, Validators.required]
+    }));
+
     this.subEntities.push({
       enabled: true,
       healthEndpoint: '',
@@ -95,13 +109,6 @@ export class StatusConfigFormComponent implements OnInit {
       isCategory: false,
       description: ''
     });
-
-    this.subEntityForms.push(this.fb.group({
-      identifier: ['', Validators.required],
-      description: [''],
-      healthEndpoint: ['', Validators.required],
-      enabled: [true, Validators.required]
-    }));
   }
 
   public remove(): void {
@@ -121,6 +128,7 @@ export class StatusConfigFormComponent implements OnInit {
   public removeSubEntity(index: number): void {
     this.subEntities.splice(index, 1);
     this.subEntityForms.splice(index, 1);
+    this.statusConfigForm.markAsTouched();
   }
 
   private createForm(): void {
