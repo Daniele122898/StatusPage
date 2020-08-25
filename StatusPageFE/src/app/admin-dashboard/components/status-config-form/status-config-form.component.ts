@@ -39,11 +39,15 @@ export class StatusConfigFormComponent implements OnInit {
     }
   }
 
+  public formNotUpdatedOrValid(): boolean {
+    return (!this.statusConfigForm.valid && this.statusConfigForm.touched) || !this.statusConfigForm.touched;
+  }
+
   private createConfig(): void {
     const conf: StatusConfig = this.statusConfigForm.value;
     this.configService.createStatusConfig(conf).subscribe(
       () => {
-        // TODO force list refresh
+        this.configService.forceListRefresh();
       }, err => {
         console.error(err);
         alert(err.error);
@@ -55,7 +59,7 @@ export class StatusConfigFormComponent implements OnInit {
     const conf: StatusConfig = this.statusConfigForm.value;
     this.configService.editStatusConfig(this.statusConfig.identifier, conf).subscribe(
       () => {
-        // TODO force list refresh
+        this.configService.forceListRefresh();
       }, err => {
         console.error(err);
         alert(err.error);
@@ -69,7 +73,7 @@ export class StatusConfigFormComponent implements OnInit {
     }
     this.configService.removeConfig(this.statusConfig.identifier).subscribe(
       () => {
-        // TODO force list refresh
+        this.configService.forceListRefresh();
       }, err => {
         console.error(err);
         alert(err.error);

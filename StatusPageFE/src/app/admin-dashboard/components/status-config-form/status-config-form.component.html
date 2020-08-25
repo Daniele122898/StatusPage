@@ -34,8 +34,8 @@
       </form>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button *ngIf="statusConfig" mat-button (click)="submit()">EDIT</button>
-      <button *ngIf="!statusConfig" mat-button (click)="submit()">ADD</button>
+      <button [disabled]="formNotUpdatedOrValid()" *ngIf="statusConfig" mat-button (click)="submit()">EDIT</button>
+      <button [disabled]="formNotUpdatedOrValid()" *ngIf="!statusConfig" mat-button (click)="submit()">ADD</button>
 
       <button *ngIf="statusConfig" mat-button color="warn" (click)="remove()">REMOVE</button>
     </mat-card-actions>

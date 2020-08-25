@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {StatusConfig} from '../models/StatusConfig';
 
 @Injectable({
@@ -10,6 +10,9 @@ import {StatusConfig} from '../models/StatusConfig';
 export class StatusConfigService {
 
   private baseUrl = environment.apiUrl + 'config';
+
+  private listRefreshSubj = new BehaviorSubject<void>(null);
+  public listRefreshObs = this.listRefreshSubj.asObservable();
 
   constructor(
     private http: HttpClient
@@ -29,6 +32,10 @@ export class StatusConfigService {
 
   public removeConfig(identifier: string): Observable<any> {
     return this.http.delete(this.baseUrl + '/' + identifier);
+  }
+
+  public forceListRefresh(): void {
+    this.listRefreshSubj.next(null);
   }
 
 }
