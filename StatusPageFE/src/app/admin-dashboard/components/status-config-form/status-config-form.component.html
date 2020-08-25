@@ -19,8 +19,7 @@
         </mat-form-field>
 
         <mat-form-field
-          *ngIf="!(statusConfig && statusConfig.isCategory) &&
-            !statusConfigForm.get('isCategory').value"
+          *ngIf="!statusConfigForm.get('isCategory').value"
           appearance="fill"
           class="width-100">
           <mat-label>Health Endpoint</mat-label>
