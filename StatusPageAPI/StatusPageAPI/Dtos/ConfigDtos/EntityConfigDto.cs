@@ -13,7 +13,6 @@ namespace StatusPageAPI.Dtos.ConfigDtos
         
         public string Description { get; set; }
 
-        [Required]
         public Uri HealthEndpoint { get; set; }
 
         public List<EntityConfigDto> SubEntities { get; set; }

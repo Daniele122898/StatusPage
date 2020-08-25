@@ -41,6 +41,9 @@ namespace StatusPageAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddConfig(EntityConfigDto entity)
         {
+            if (!entity.IsCategory && string.IsNullOrWhiteSpace(entity.HealthEndpoint.ToString()))
+                return BadRequest("Health Endpoint cannot be null if entity is not a category.");
+                
             var res = await _ecs.TryAddConfig(entity.ToDeclaration());
             if (!res)
                 return BadRequest(res.Err().Message.Get());
