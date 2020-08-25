@@ -109,7 +109,8 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public removeSubEntity(index: number): void {
-
+    this.subEntities.splice(index, 1);
+    this.subEntityForms.splice(index, 1);
   }
 
   private createForm(): void {
