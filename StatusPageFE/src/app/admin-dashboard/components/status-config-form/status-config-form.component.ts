@@ -28,7 +28,7 @@ export class StatusConfigFormComponent implements OnInit {
   }
 
   public submit(): void {
-    if (!this.statusConfigForm) {
+    if (!this.statusConfigForm.valid) {
       return;
     }
 
