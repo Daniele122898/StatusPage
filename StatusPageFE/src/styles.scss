@@ -65,6 +65,16 @@ $status-dark-theme: mat-dark-theme((
     background-color: mat-color($warn);
   }
 
+  .primary-color-text {
+    color: mat-color($primary);
+  }
+  .accent-color-text {
+    color: mat-color($accent);
+  }
+  .warn-color-text {
+    color: mat-color($warn);
+  }
+
   @for $i from 1 through 10 {
     .bg-#{$i * 10} {
       background-color: lighten(#121212, $i * 10);
@@ -88,6 +98,16 @@ $status-dark-theme: mat-dark-theme((
   }
   .warn-color-bg {
     background-color: mat-color($warn);
+  }
+
+  .primary-color-text {
+    color: mat-color($primary);
+  }
+  .accent-color-text {
+    color: mat-color($accent);
+  }
+  .warn-color-text {
+    color: mat-color($warn);
   }
 
   @for $i from 1 through 10 {

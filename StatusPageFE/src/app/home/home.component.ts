@@ -35,7 +35,9 @@ export class HomeComponent implements OnInit {
   private getAllStatuses(): void {
     this.statusService.getServiceStatuses().subscribe(
       statuses => {
-        this.serviceStatuses = statuses;
+        this.serviceStatuses = statuses.sort((a, b) => {
+          return a.identifier > b.identifier ? 1 : -1;
+        });
       },
       err => {
         console.error(err);

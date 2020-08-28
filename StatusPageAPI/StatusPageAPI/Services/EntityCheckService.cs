@@ -66,7 +66,7 @@ namespace StatusPageAPI.Services
                             {
                                 Identifier = entity.Identifier,
                                 Description = entity.Description,
-                                Error = res.Err().Message,
+                                Error = "Could not reach service. It is most likely completely down and unreachable.",
                                 Status = Status.Outage
                             });
                             continue;
@@ -108,7 +108,7 @@ namespace StatusPageAPI.Services
                     {
                         Identifier = entity.Identifier,
                         Description = entity.Description,
-                        Error = res.Err().Message,
+                        Error = "Could not reach service. It is most likely completely down and unreachable.",
                         Status = Status.Outage
                     });
                     continue;

@@ -79,7 +79,7 @@ export class StatusConfigFormComponent implements OnInit {
         this.configService.forceListRefresh();
         this.subEntities = undefined;
         this.subEntityForms = undefined;
-        this.statusConfigForm.reset({enabled: true});
+        this.statusConfigForm.reset({enabled: true, isCategory: false});
       }, err => {
         console.error(err);
         alert(err.error);
