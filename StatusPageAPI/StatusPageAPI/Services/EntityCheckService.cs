@@ -37,7 +37,7 @@ namespace StatusPageAPI.Services
             _refreshCdSecs = authConfig.Value.EntityCooldownSeconds;
 
             // After startup it should do it's first query after x seconds. This gives enough time for everything to warm up and start
-            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_refreshCdSecs));
+            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(_refreshCdSecs));
 
             _log.LogInformation("Initialized Entity Check service");
         }
@@ -102,7 +102,7 @@ namespace StatusPageAPI.Services
             }
             finally
             {
-                _timer.Change(TimeSpan.FromMinutes(_refreshCdSecs), TimeSpan.FromMinutes(_refreshCdSecs));
+                _timer.Change(TimeSpan.FromSeconds(_refreshCdSecs), TimeSpan.FromSeconds(_refreshCdSecs));
             }
         }
 
