@@ -1,4 +1,5 @@
-﻿using ArgonautCore.Network.Http;
+﻿using System;
+using ArgonautCore.Network.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace StatusPageAPI.Services
@@ -8,7 +9,7 @@ namespace StatusPageAPI.Services
         public static IServiceCollection AddCustomServices(this IServiceCollection services)
             => services
                 .AddSingleton<EntityCheckService>()
-                .AddSingleton<CoreHttpClient>()
+                .AddSingleton(new CoreHttpClient(TimeSpan.FromSeconds(2)))
                 .AddSingleton<StatusService>()
                 .AddSingleton<EntityConfigService>()
                 .AddSingleton<SpecialNoticeService>();
