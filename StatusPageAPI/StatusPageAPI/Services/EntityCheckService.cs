@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using ArgonautCore.Lw;
 using ArgonautCore.Network.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using StatusPageAPI.Models;
+using StatusPageAPI.Models.Configurations;
 using StatusPageAPI.Models.Enums;
 
 namespace StatusPageAPI.Services
@@ -19,20 +21,23 @@ namespace StatusPageAPI.Services
         private readonly EntityConfigService _ecs;
         private readonly StatusService _ss;
 
-        private const int _REFRESH_CD_MIN = 1;
+        private readonly int _refreshCdSecs;
 
         // ReSharper disable once NotAccessedField.Local
         private readonly Timer _timer;
 
-        public EntityCheckService(ILogger<EntityCheckService> log, CoreHttpClient http, EntityConfigService ecs, StatusService ss)
+        public EntityCheckService(ILogger<EntityCheckService> log, CoreHttpClient http, 
+            EntityConfigService ecs, StatusService ss, IOptions<AuthenticationConfig> authConfig)
         {
             _log = log;
             _http = http;
             _ecs = ecs;
             _ss = ss;
 
+            _refreshCdSecs = authConfig.Value.EntityCooldownSeconds;
+
             // After startup it should do it's first query after x seconds. This gives enough time for everything to warm up and start
-            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
+            _timer = new Timer(this.GetStatuses, null, TimeSpan.FromSeconds(10), TimeSpan.FromMinutes(_refreshCdSecs));
 
             _log.LogInformation("Initialized Entity Check service");
         }
@@ -97,7 +102,7 @@ namespace StatusPageAPI.Services
             }
             finally
             {
-                _timer.Change(TimeSpan.FromMinutes(_REFRESH_CD_MIN), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
+                _timer.Change(TimeSpan.FromMinutes(_refreshCdSecs), TimeSpan.FromMinutes(_refreshCdSecs));
             }
         }
 
