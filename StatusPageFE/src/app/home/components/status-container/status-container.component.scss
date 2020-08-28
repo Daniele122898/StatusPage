@@ -18,7 +18,11 @@
   align-items: center;
 
   > .rtt-margin {
-    margin-right: $xs-size;
+    display: none;
+    @media (min-width: $desktop-breakpoint) {
+      margin-right: $xs-size;
+      display: block;
+    }
   }
 }
 
