@@ -1,0 +1,52 @@
+  # >>> This is a "dist-file" and thus expects to be modified. <<<
+#
+# Take a look at the commented entries below.
+# These are the ones you'll probably want to change.
+#
+# - Copy this file to "/lib/systemd/system"
+# - Execute "systemctl enable cdnnet.service"
+#   - This links the file to "/etc/systemd/system/multi-user.target.wants/"
+#
+# - Done! You can now use the usual control commands:
+#   - journalctl -u x
+#   - systemctl start x
+#   - systemctl stop x
+#   - systemctl restart x
+#
+# To uninstall this service just disable it ("systemctl disable x").
+# Delete "/lib/systemd/system/x.service" afterwards if you want.
+
+[Unit]
+Description=statusPage
+Documentation=https://github.com/Daniele122898/StatusPage
+After=network.target syslog.target
+
+[Install]
+Alias=statusPage
+WantedBy=default.target
+
+[Service]
+Type=simple
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=statusPage
+
+# The user that will run x.
+# You can comment this out but remember that systemd will run your app as root if you do that.
+# Don't believe anyone who says that always running userland apps with sudo/root is a good idea.
+User=daniele
+
+# The path to your x installation.
+# Double-Check that the user you specified above has permission to read/write in this path.
+WorkingDirectory=/home/daniele/StatusPage
+
+# The command to launch x.
+ExecStart=/usr/bin/dotnet StatusPageAPI.dll
+
+# If x crashes give him 2 seconds of rest and reboot.
+Restart=on-failure
+RestartSec=2
+
+# Limit x to crashing at most 3 times per 10 seconds.
+StartLimitInterval=10
+StartLimitBurst=3

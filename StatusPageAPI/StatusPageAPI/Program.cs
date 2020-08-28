@@ -16,7 +16,10 @@ namespace StatusPageAPI
                 .ConfigureLogging(b =>
                 {
                     b.ClearProviders();
-                    b.AddConsole();
+                    b.AddConsole((conf) =>
+                    {
+                        conf.TimestampFormat = "[dd-MM HH:mm] - ";
+                    });
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
