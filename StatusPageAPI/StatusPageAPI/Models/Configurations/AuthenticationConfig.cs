@@ -7,5 +7,6 @@
         public string Token { get; set; }
         public string TokenIssuer { get; set; }
         public int DaysUntilTokenExpiration { get; set; }
+        public int EntityCooldownSeconds { get; set; }
     }
 }
