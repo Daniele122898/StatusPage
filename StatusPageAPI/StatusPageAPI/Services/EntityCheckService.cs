@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ArgonautCore.Lw;
 using ArgonautCore.Network.Http;
 using Microsoft.Extensions.Logging;
 using StatusPageAPI.Models;
@@ -41,6 +42,7 @@ namespace StatusPageAPI.Services
             try
             {
                 _log.LogInformation("Getting Statuses...");
+                _timer.Change(int.MaxValue, int.MaxValue);
                 var entities = await _ecs.GetEntityDeclarationsAsync();
                 var statuses = new List<EntityStatus>(entities.Count);
                 foreach (var entity in entities)
@@ -49,7 +51,7 @@ namespace StatusPageAPI.Services
                     {
                         if (entity.SubEntities == null || entity.SubEntities.Count == 0)
                             continue;
-                        
+
                         var s = await this.GetEntityWithSubEntities(entity);
                         statuses.Add(s);
                     }
@@ -57,10 +59,18 @@ namespace StatusPageAPI.Services
                     {
                         var sw = new Stopwatch();
                         sw.Restart();
-                        var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                        Result<EntityStatus, Error> res = default;
+                        try
+                        {
+                            res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                        }
                         uint rtt = (uint) sw.ElapsedMilliseconds;
                         sw.Stop();
-                        if (!res)
+                        if (res == default || !res)
                         {
                             statuses.Add(new EntityStatus()
                             {
@@ -77,14 +87,17 @@ namespace StatusPageAPI.Services
                         statuses.Add(s);
                     }
                 }
+
                 _ss.SetStatuses(statuses);
                 _log.LogInformation("Finished updating all the status information.");
             }
             catch (Exception e)
             {
-                // TODO check where it outputs.
-                Console.Error.WriteLine(e); 
                 Console.WriteLine(e);
+            }
+            finally
+            {
+                _timer.Change(TimeSpan.FromMinutes(_REFRESH_CD_MIN), TimeSpan.FromMinutes(_REFRESH_CD_MIN));
             }
         }
 
@@ -100,9 +113,17 @@ namespace StatusPageAPI.Services
             foreach (var entity in e.SubEntities)
             {
                 sw.Restart();
-                var res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                Result<EntityStatus, Error> res = default;
+                try
+                {
+                    res = await _http.GetAndMapResponse<EntityStatus>(entity.HealthEndpoint.ToString());
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
                 uint rtt = (uint) sw.ElapsedMilliseconds;
-                if (!res)
+                if (res == default || !res)
                 {
                     ent.SubEntities.Add(new EntityStatus()
                     {
