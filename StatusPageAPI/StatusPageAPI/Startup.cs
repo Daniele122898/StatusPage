@@ -137,6 +137,13 @@ namespace StatusPageAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Check if entities.json file exists
+            var path = Path.Combine(env.ContentRootPath, "entities.json");
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, "[]");
+            }
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

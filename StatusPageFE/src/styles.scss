@@ -80,6 +80,11 @@ $status-dark-theme: mat-dark-theme((
       background-color: lighten(#121212, $i * 10);
       //background-color: mat-color($background);
     }
+
+    .color-#{$i * 10} {
+      color: darken(#FFF, $i * 10);
+      //background-color: mat-color($background);
+    }
   }
 }
 
@@ -113,6 +118,11 @@ $status-dark-theme: mat-dark-theme((
   @for $i from 1 through 10 {
     .bg-#{$i * 10} {
       background-color: darken(white, $i * 10);
+      //background-color: mat-color($background);
+    }
+
+    .color-#{$i * 10} {
+      color: lighten(#121212, $i * 10);
       //background-color: mat-color($background);
     }
   }
