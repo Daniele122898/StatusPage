@@ -15,6 +15,14 @@
     > * {
       margin-bottom: $m-size;
     }
+
+    > .rtt-notice {
+      display: none;
+
+      @media (min-width: $desktop-breakpoint) {
+        display: block;
+      }
+    }
   }
 }
 

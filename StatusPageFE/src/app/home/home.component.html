@@ -1,7 +1,7 @@
 <div class="content-container">
   <div class="status-list">
-    <p class="color-40" *ngIf="ec2">These RTTs are from a us-west amazon EC2 instance and thus unusually high.</p>
-    <p class="color-40" *ngIf="!ec2">Some of the RTTs might be extremely short due to the services being hosted on the same server.</p>
+    <p class="color-40 rtt-notice" *ngIf="ec2">These RTTs are from a us-west amazon EC2 instance and thus unusually high.</p>
+    <p class="color-40 rtt-notice" *ngIf="!ec2">Some of the RTTs might be extremely short due to the services being hosted on the same server.</p>
 
     <div *ngIf="specialNotice" class="notice-box warn-color-bg">
       <div class="notice-content">
