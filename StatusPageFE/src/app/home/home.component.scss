@@ -6,7 +6,11 @@
     flex-direction: column;
     width: 100%;
 
-    margin-top: $l-size;
+    margin-top: $m-size;
+
+    @media (min-width: $desktop-breakpoint) {
+      margin-top: $l-size;
+    }
 
     > * {
       margin-bottom: $m-size;

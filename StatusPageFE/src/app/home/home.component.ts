@@ -3,7 +3,7 @@ import {StatusService} from './services/status.service';
 import {ServiceStatus} from '../../shared/models/ServiceStatus';
 import {getStatusText} from '../../shared/models/Status';
 import {SpecialNotice} from '../../shared/models/SpecialNotice';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
 
   public serviceStatuses: ServiceStatus[];
   public specialNotice: SpecialNotice;
+  public ec2 = false;
 
   public getStatusText = getStatusText;
 
@@ -30,6 +31,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllStatuses();
+
+    this.ec2 = window.location.href.includes('status2.argonaut');
   }
 
   private getAllStatuses(): void {

@@ -1,9 +1,17 @@
+@import "src/shared/scss/settings";
+
 .icon-spacer {
   flex: 1 1 auto;
 }
 
 .nav-header {
   outline: none;
+
+  font-size: 90%;
+
+  @media (min-width: $desktop-breakpoint) {
+    font-size: 100%;
+  }
 
   &:hover {
     cursor: pointer;
