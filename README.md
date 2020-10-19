@@ -10,6 +10,23 @@
 # Simple from the ground up
 Status Page was built from the ground up to be extremly easy to use but also to host. It does not require a database or any additional services. It runs off a single entities.json config file for the statuses and the appsettings.json file for general service settings. 
 
+## Configure the appsettings.json file
+There are a couple values that have to be set in the appsettings.json file. 
+
+First rename the appsettings.Example.json to appsettings.json. Make sure to set a Username and password which are used to login to the admin dashboard. 
+
+Generate a random token to be used for the jwt generation and add it to the appsettings.json file as well. 
+
+The token issuer should be the URL to your API. If you use the API to host the website like in this repo just use `http://localhost:5000/`.
+
+## Login for Admin Dashboard.
+
+To get to the admin dashboard you have to go to the homepage and hit SHIFT+L on your keyboard. That will redirect you to `/login`. If you're on mobile just navigate to `/login` manually.
+
+## Angular Frontend build
+The angular frontend is setup in a way such that triggering a `ng build --prod` will automatically deposit the build files into `../StatusPageAPI/StatusPageAPI/wwwroot` which is the directory from which the API will serve the static files. You'll have to change the code slightly if you wish to decouple this functionality. 
+
+
 # Configure Services to work with Status Page
 All you need is to add a health endpoint to whatever service you wish to integrate with the Status Page.
 That endpoit must respond with a json object with the following properties: 
